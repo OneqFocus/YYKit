@@ -147,7 +147,7 @@
                          tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
                              [_self showMessage:[NSString stringWithFormat:@"Tap: %@", [text.string substringWithRange:range]]];
                          }];
-        
+
         [text appendAttributedString:one];
         [text appendAttributedString:[self padding]];
     }
