@@ -125,7 +125,7 @@
     YYFPSLabel *fps = [YYFPSLabel new];
     fps.centerY = toolbar.height / 2;
     fps.left = 5;
-    [toolbar addSubview:fps];
+	[self viewAddSubView:toolbar subView:fps];
     
     UILabel *label = [UILabel new];
     label.backgroundColor = [UIColor clearColor];
@@ -134,8 +134,8 @@
     [label sizeToFit];
     label.centerY = toolbar.height / 2;
     label.left = fps.right + 10;
-    [toolbar addSubview:label];
-    
+	[self viewAddSubView:toolbar subView:label];
+	
     UISwitch *switcher = [UISwitch new];
     [switcher sizeToFit];
     switcher.centerY = toolbar.height / 2;
@@ -147,9 +147,18 @@
         if (!self) return;
         [self setAsync:switcher.isOn];
     }];
-    [toolbar addSubview:switcher];
+	[self viewAddSubView:toolbar subView:switcher];
 }
-
+- (void)viewAddSubView:(UIView *)superView subView:(UIView *)subView {
+	if (@available(iOS 11.0, *)) {
+		if ([superView isKindOfClass:[UIVisualEffectView class]]) {
+			UIVisualEffectView *toolBar = (UIVisualEffectView *)superView;
+			[toolBar.contentView addSubview:subView];
+		}
+	} else {
+		[superView addSubview:subView];
+	}
+}
 - (void)setAsync:(BOOL)async {
     _async = async;
     [self.tableView.visibleCells enumerateObjectsUsingBlock:^(YYTextAsyncExampleCell *cell, NSUInteger idx, BOOL *stop) {
